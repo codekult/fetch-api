@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>fetch API</title>
+    <meta content="A brief summary on fetch API" name=
+    "description">
+    <meta content="Diego Calderón" name="author">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black-translucent" name=
+    "apple-mobile-web-app-status-bar-style">
+    <meta content=
+    "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui"
+    name="viewport">
+    <link href="css/reveal.css" rel="stylesheet">
+    <link href="css/theme/codecultist.css" id="theme" rel="stylesheet">
+    <link href="css/custom.css" id="theme" rel="stylesheet">
+    <!-- Code syntax highlighting -->
+    <link href="lib/css/hybrid.css" rel="stylesheet">
+    <!-- Printing and PDF exports -->
+
+    <script>
+var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script><!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+</head>
+
+<body>
+    <div class="reveal">
+        <!-- Any section element inside of this container is displayed as a slide -->
+
+        <div class="slides">
+            <section>
+                <h2>— A brief summary on —</h2>
+                <h1>fetch API</h1>
+            </section>
+
+            <section>
+                <h2>Why a new API?</h2>
+            </section>
+
+            <section>
+                <p>Because of…</p>
+            </section>
+
+            <section>
+                <p><code>XMLHttpRequest</code></p>
+<pre><code>var xhr = new XMLHttpRequest();
+xhr.open(&#39;GET&#39;, url);
+xhr.responseType = &#39;json&#39;;
+
+xhr.onload = function() {
+    console.log(xhr.response);
+};
+
+xhr.onerror = function() {
+    console.log(&quot;Booo&quot;);
+};
+
+xhr.send();
+</code></pre>
+            </section>
+
+            <section>
+                <p>Get rid of jQuery dependency</p>
+            </section>
+
+            <section>
+                <p>As all new async APIs proposals, <code>fetch</code> is based upon <a target="_blank" href="codekult.github.io/tgif-es6-promises">promises</a> and can benefit from the inertia with that other APIs and new features.</p>
+            </section>
+
+            <section>
+                <p>Example: <code>fetch</code> + <a target="_blank" href="codekult.github.io/fke-generators/">generators</a>, <code>fetch</code> + <code>async</code> functions, <code>fetch</code> in Service Worker, and more coming…</p>
+            </section>
+
+            <section>
+                <h2>Basic usage</h2>
+            </section>
+
+            <section>
+                <p><code>GET</code></p>
+<pre><code>fetch(url)
+    .then(res =&gt; res.json(), err =&gt; {throw(err)})
+    .then(data =&gt; handleData(data))
+    .catch(err =&gt; handleError(err));
+</code></pre>
+            </section>
+
+            <section>
+                <p><code>POST</code></p>
+<pre><code>fetch(url, {method: post, headers: ${headers}, body: ${body}})
+    .then(res =&gt; res.json(), err =&gt; throw(err))
+    .then(data =&gt; handleData(data))
+    .catch(err =&gt; handleError(err));
+</code></pre>
+            </section>
+
+            <section>
+                <p>Don’t forget to check response status</p>
+<pre><code>fetch(url)
+    .then(
+        res =&gt; {
+            if (res.status === 200) {
+                return res.json()
+            }
+            throw(res.statusText);
+        }, err =&gt; {throw(err)})
+    .then(data =&gt; handleData(data))
+    .catch(err =&gt; handleError(err));
+</code></pre>
+            </section>
+
+            <section>
+                <h2>Response types, metadata and headers</h2>
+            </section>
+
+            <section>
+                <p>A fetch return a <a target="_blank" href="https://fetch.spec.whatwg.org/#responses">response</a>.</p>
+            </section>
+
+            <section>
+                <p>A response type can be one of the following: <code>basic</code>, <code>cors</code>, and <code>opaque</code>. Also could be <code>default</code> or <code>error</code>, but these types are of a different kind.</p>
+            </section>
+
+            <section>
+                <p>We can access response metadata.</p>
+<pre><code>response.status;
+response.statusText;
+response.type;
+response.url;
+</code></pre>
+            </section>
+
+            <section>
+                <p>Also we can get or set headers.</p>
+<pre><code>response.headers.get(&#39;Content-Type&#39;);
+response.headers.get(&#39;Date&#39;)
+fetch(url, {
+    method: &#39;post&#39;,
+    headers: {
+      &quot;Content-type&quot;: &quot;application/x-www-form-urlencoded; charset=UTF-8&quot;
+    },
+    body: &#39;foo=bar&amp;lorem=ipsum&#39;
+  })
+// …
+</code></pre>
+            </section>
+
+            <section>
+                <a target="_blank" href="http://jsbin.com/vixocu/embed?js,console">Let's see a more real example</a>
+            </section>
+
+            <section>
+                <h2>Streams</h2>
+            </section>
+
+            <section>
+                <p><code>response.body</code> is a <a target="_blank" href="https://streams.spec.whatwg.org/#rs-model"><code>ReadableStream</code></a>.</p>
+            </section>
+
+            <section>
+                <p>Streams are a nice because they allow us to handle the response data as its arrive (think on media types like video, or large datasets).</p>
+            </section>
+
+            <section>
+                <p><code>fetch</code> streams support isn’t complete yet.</p>
+                <p>But we can read <code>response.body</code> stream with a set of built-in readers.</p>
+            </section>
+
+
+            <section>
+<pre><code>// One reader for each `response.body` type.
+// All of them return a promise.
+response.arrayBuffer();
+response.blob();
+response.formData();
+response.json();
+response.text();
+</code></pre>
+            </section>
+
+            <section>
+                <h2>Tasks, <code>.cancel</code> and <code>.finally</code></h2>
+            </section>
+
+            <section>
+                <p><code>fetch</code> API is still a work in progress.</p>
+            </section>
+
+            <section>
+                <p>An update that is coming is the inclusion of a promise’s subclass called <strong>tasks</strong>.</p>
+            </section>
+
+            <section>
+                <p>Basically a <strong>task</strong> is a cancelable promise.</p>
+            </section>
+
+            <section>
+                <p>Subclassing allows an evolving promise API, with backwards compatibility.</p>
+            </section>
+
+            <section>
+                <p>A task’s promise has a new state added to <code>fullfiled</code>, <code>pending</code> or <code>rejected</code>. It’s <code>canceled</code>.</p>
+            </section>
+
+            <section>
+                <h2>Further reading</h2>
+            </section>
+
+            <section>
+                <ul>
+                	<li><a target="_blank" href="https://developers.google.com/web/updates/2015/03/introduction-to-fetch">Introduction to Fetch</a> by Matt Gaunt .</li>
+                	<li><a target="_blank" href="http://jakearchibald.com/2015/thats-so-fetch/">That’s so fetch!</a> by Jake Archibald.</li>
+                	<li><a target="_blank" href="http://davidwalsh.name/fetch"><code>fetch</code> API</a> by David Walsh.</li>
+                	<li><a target="_blank" href="https://streams.spec.whatwg.org/">Streams</a> on WHATWG.</li>
+                	<li><a target="_blank" href="http://www.slideshare.net/domenicdenicola/async-frontiers">Async Frontiers</a> by Domenic Denicola.</li>
+                	<li><a target="_blank" href="https://github.com/github/fetch">GitHub <code>fetch</code> polyfill</a>.</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <script src="lib/js/head.min.js"></script> <script src="js/reveal.js"></script> <script>
+
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+                // Optional reveal.js plugins
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
+                    { src: 'plugin/notes/notes.js', async: true }
+                ]
+            });
+
+    </script>
+</body>
+</html>
