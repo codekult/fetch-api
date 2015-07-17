@@ -4,10 +4,10 @@
  * Copyright (C) 2015 Hakim El Hattab, http://hakim.se
  */
 
-@import url('https://fonts.googleapis.com/css?family=Lato:300,300italic,700');
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,300italic,700');
 
 section.has-light-background, section.has-light-background h1, section.has-light-background h2, section.has-light-background h3, section.has-light-background h4, section.has-light-background h5, section.has-light-background h6 {
-  color: #222; }
+  color: #352e48; }
 
 /*********************************************
  * GLOBAL STYLES
@@ -79,7 +79,8 @@ body {
   max-height: 95%; }
 
 .reveal strong, .reveal b {
-  font-weight: 700;
+  font-weight: 400;
+  color: #ecc23c;
 }
 
 .reveal em {
@@ -150,8 +151,12 @@ body {
 .reveal p code {
   padding: 0.2em;
   font-size: 0.75em;
-  color: #f3f3f3;
   background: #5b556a;
+}
+
+.reveal .has-light-background p code {
+  color: #5b556a;
+  background: #f3f3f3;
 }
 
 .reveal pre code {

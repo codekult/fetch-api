@@ -199,15 +199,37 @@ response.text();
             </section>
 
             <section>
-                <p>Basically a <strong>task</strong> is a cancelable promise.</p>
+                <p>Subclassing allows an evolving promise API,<br/>with backwards compatibility.</p>
             </section>
 
             <section>
-                <p>Subclassing allows an evolving promise API, with backwards compatibility.</p>
+                <p>A task is a cancelable promise,<br/>and we can cancel it with <code>.cancel</code></p>
             </section>
 
             <section>
-                <p>A task’s promise has a new state added to <code>fullfiled</code>, <code>pending</code> or <code>rejected</code>. It’s <code>canceled</code>.</p>
+                <p>So a task has a new state added to <code>fullfiled</code>, <code>pending</code> or <code>rejected</code>. It’s <code>canceled</code>.</p>
+            </section>
+
+            <section data-background="#fff" class="has-light-background">
+                <p>A promise's <code>then</code> always returns a new promise.<br/>&nbsp;</p>
+                <p><img src="images/then_returning_promise.png" alt="`then` returning a promise"/></p>
+            </section>
+
+            <section>
+                <p>But with tasks with can handle that final promise with <code>.finally</code></p>
+            </section>
+
+            <section>
+                <p>More coming into <code>fetch</code>…</p>
+            </section>
+
+            <section>
+                <ul>
+                    <li>Progress indication.</li>
+                    <li>Full support for streams.</li>
+                    <li>Support fetching between different hosts (<code>Window</code> and workers).</li>
+                    <li>Interaction with the cache (cache API and Service Worker).</li>
+                </ul>
             </section>
 
             <section>
