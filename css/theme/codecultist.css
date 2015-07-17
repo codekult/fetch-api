@@ -203,6 +203,7 @@ body {
  *********************************************/
 .reveal a {
   color: #ffa743;
+  border-bottom: dashed 1px #ffa743;
   text-decoration: none;
   -webkit-transition: color 0.15s ease;
   -moz-transition: color 0.15s ease;
@@ -211,7 +212,8 @@ body {
 .reveal a:hover {
   color: #ecc23c;
   text-shadow: none;
-  border: none; }
+  border-color: #ecc23c;
+}
 
 .reveal .roll span:after {
   color: #fff;
